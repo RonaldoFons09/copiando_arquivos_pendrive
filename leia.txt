@@ -1,0 +1,5 @@
+1. script "copiando arquivo" ao clicar não vai aparecer nada nenhuma tela nem nada, não vai gerar nenhuma pasta. o script vai copiar os arquivos para dentro do pen drive ocultas
+
+
+
+2. script: "tornando os sarquivos visiveis.py" vai tornar as pastas viseis
