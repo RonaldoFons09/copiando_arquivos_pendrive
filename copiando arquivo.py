@@ -4,18 +4,17 @@ from pathlib import Path
 import psutil  # Biblioteca para verificar dispositivos conectados
 
 
-# Obtém os caminhos das pastas padrão do Windows
+# Obtém os caminhos reais das pastas padrão do Windows
 def obter_pastas_padrao():
-    user_home = Path.home()
     pastas = {
-        "Área de Trabalho": user_home / "Desktop",
-        "Imagens": user_home / "Pictures",
-        "Vídeos": user_home / "Videos",
-        "Documentos": user_home / "Documents",
-        "Downloads": user_home / "Downloads",
-        "Músicas": user_home / "Music",
+        "Área de Trabalho": os.environ.get("USERPROFILE") + "\\Desktop",
+        "Imagens": os.environ.get("USERPROFILE") + "\\Pictures",
+        "Vídeos": os.environ.get("USERPROFILE") + "\\Videos",
+        "Documentos": os.environ.get("USERPROFILE") + "\\Documents",
+        "Downloads": os.environ.get("USERPROFILE") + "\\Downloads",
+        "Músicas": os.environ.get("USERPROFILE") + "\\Music",
     }
-    return pastas
+    return {nome: Path(caminho) for nome, caminho in pastas.items()}
 
 
 # Função para identificar automaticamente o pen drive
